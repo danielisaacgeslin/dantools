@@ -81,7 +81,17 @@ gulp.task('brows-dev', function(){
 });
 
 gulp.task('build', function(){
-  runSequence('build-main','minify-main', 'libs', 'browserify', 'minify-js', 'minify-html', 'images', function(){
+  runSequence(
+  'build-main',
+  'minify-main',
+  'libs',
+  'browserify',
+  'minify-js',
+  'sass',
+  'minify-css',
+  'minify-html',
+  'images',
+  function(){
     console.log('build done');
   });
 });
