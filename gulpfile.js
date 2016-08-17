@@ -10,7 +10,9 @@ var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
 var runSequence = require('run-sequence');
 
-gulp.task('default', ['connect','watch']);
+gulp.task('default', function(){
+  runSequence('build', 'watch', 'connect');
+});
 
 gulp.task('connect', function() {
   connect.server({
@@ -42,7 +44,7 @@ gulp.task('build-main', function() {
 
 gulp.task('minify-main', function() {
   return gulp.src('temp/main.js')
-    .pipe(uglify({mangle:false}))
+    .pipe(uglify({mangle:true}))
     .pipe(gulp.dest('public/js/'));
 });
 
@@ -96,17 +98,7 @@ gulp.task('build', function(){
   });
 });
 
-gulp.task('watch', function() {
-	gulp.watch('libs/**/*.*', ['libs']);
-	gulp.watch('app/**/*.js', ['browserify']);
-	gulp.watch('temp/js/*.js', ['minify-js']);
-	gulp.watch('./sass/*.scss', [ 'sass' ]);
-	gulp.watch('temp/**/*.css', [ 'minify-css' ]);
-	gulp.watch('markup/**/*.html', ['minify-html']);
-	gulp.watch('images/**/*', ['images']);
-});
-
-gulp.task('watch-dev', function(){
+gulp.task('watch', function(){
 	gulp.watch('libs/**/*.*', ['libs']);
 	gulp.watch('app/**/*.js', ['brows-dev']);
 	gulp.watch('./sass/*.scss', [ 'sass' ]);
