@@ -24,7 +24,8 @@
     "angular-bootstrap": "",
     "angular-material": "",
     "browserify": "",
-    "vinyl-source-stream": ""
+    "vinyl-source-stream": "",
+    "run-sequence": ""
   },
   "repository": {
     "type": "git",

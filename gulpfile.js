@@ -8,6 +8,7 @@ var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
+var runSequence = require('run-sequence');
 
 gulp.task('default', ['connect','watch']);
 
@@ -79,7 +80,11 @@ gulp.task('brows-dev', function(){
 	.pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('main', ['build-main','minify-main']);
+gulp.task('build', function(){
+  runSequence('build-main','minify-main', 'libs', 'browserify', 'minify-js', 'minify-html', 'images', function(){
+    console.log('build done');
+  });
+});
 
 gulp.task('watch', function() {
 	gulp.watch('libs/**/*.*', ['libs']);
