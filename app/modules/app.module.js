@@ -1,4 +1,4 @@
 module.exports = (function(){
   'use strict';
-  angular.module('app', ['ngMaterial','ui.router','ngSanitize']);
+  angular.module('app', ['ui.router','ngSanitize']);
 })();
