@@ -10,9 +10,18 @@ var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
 var runSequence = require('run-sequence');
 
+/*usable from terminal*/
 gulp.task('default', function(){
   runSequence('build', 'watch', 'connect');
 });
+
+gulp.task('dev', ['connect','watch']);
+
+gulp.task('build', function(){
+  runSequence('build-main','libs','build-app','build-css','minify-html','images');
+});
+
+/*end usable from terminal*/
 
 gulp.task('connect', function() {
   connect.server({
@@ -22,8 +31,6 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('dev', ['connect','watch-dev']);
-
 gulp.task('images', function(){
 	return gulp.src('./images/**/*')
 		.pipe(imagemin())
@@ -31,38 +38,46 @@ gulp.task('images', function(){
 });
 
 gulp.task('browserify', function() {
-	return browserify('./app/app.js')
+	return browserify('./app/generator.js')
 	.bundle().pipe(source('app.js'))
-	.pipe(gulp.dest('temp/js/'));
+	.pipe(gulp.dest('public/js/'));
 });
 
-gulp.task('build-main', function() {
+gulp.task('minify-js', function() {
+  return gulp.src('public/js/app.js')
+    .pipe(uglify({mangle:false}))
+    .pipe(gulp.dest('public/js/'));
+});
+
+gulp.task('brows-dev', function(){
+	return browserify('./app/generator.js')
+	.bundle()
+  .pipe(source('app.js'))
+	.pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('main', function() {
 	return browserify('./main.js')
 	.bundle().pipe(source('main.js'))
-	.pipe(gulp.dest('temp/'));
+	.pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('minify-main', function() {
-  return gulp.src('temp/main.js')
+  return gulp.src('public/js/main.js')
     .pipe(uglify({mangle:true}))
     .pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('sass', function() {
 	return gulp.src('./sass/style.scss')
-			.pipe(sass().on('error', sass.logError)).pipe(gulp.dest('temp/css'));
+			.pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('minify-css', function() {
-  return gulp.src('temp/css/*.css')
+  return gulp.src('public/css/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(gulp.dest('./public/css/'));
-});
-
-gulp.task('minify-js', function() {
-  return gulp.src('temp/js/app.js')
-    .pipe(uglify({mangle:false}))
-    .pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('libs', function() {
@@ -76,33 +91,22 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('./public/'))
 });
 
-gulp.task('brows-dev', function(){
-	return browserify('./app/app.js')
-	.bundle().pipe(source('main.js'))
-	.pipe(gulp.dest('./public/js/'));
+gulp.task('build-app', function(){
+  runSequence('browserify','minify-js');
 });
 
-gulp.task('build', function(){
-  runSequence(
-  'build-main',
-  'minify-main',
-  'libs',
-  'browserify',
-  'minify-js',
-  'sass',
-  'minify-css',
-  'minify-html',
-  'images',
-  function(){
-    console.log('build done');
-  });
+gulp.task('build-css', function(){
+  runSequence('sass','minify-css');
+});
+
+gulp.task('build-main', function(){
+  runSequence('main','minify-main');
 });
 
 gulp.task('watch', function(){
 	gulp.watch('libs/**/*.*', ['libs']);
 	gulp.watch('app/**/*.js', ['brows-dev']);
-	gulp.watch('./sass/*.scss', [ 'sass' ]);
-	gulp.watch('temp/**/*.css', [ 'minify-css' ]);
+	gulp.watch('./sass/*.scss', [ 'build-css' ]);
 	gulp.watch('markup/**/*.html', ['minify-html']);
 	gulp.watch('images/**/*', ['images']);
 });

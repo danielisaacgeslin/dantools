@@ -1,4 +1,4 @@
-(function(){
+module.exports = (function(){
 	'use strict';
 	angular.module('app').controller('mainController', mainController);
 
@@ -6,7 +6,7 @@
 
 	function mainController($scope) {
 		var vm = this;
-		console.log('main');
-		});
+
+		vm.test = 'testing this controller';
 	};
 })();
