@@ -8,17 +8,21 @@ var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
+var jshint = require('gulp-jshint');
 var runSequence = require('run-sequence');
+var Server = require('karma').Server;
 
 /*usable from terminal*/
 gulp.task('default', function(){
-  runSequence('build', 'watch', 'connect');
+  runSequence('dev');
 });
 
-gulp.task('dev', ['connect','watch']);
+gulp.task('dev', function(){
+  runSequence('build', 'lint', 'test', 'watch');
+});
 
 gulp.task('build', function(){
-  runSequence('build-main','libs','build-app','build-css','minify-html','images');
+  runSequence('build-main','libs','build-app','build-css','minify-html','images','fonts', 'lint');
 });
 
 /*end usable from terminal*/
@@ -26,9 +30,25 @@ gulp.task('build', function(){
 gulp.task('connect', function() {
   connect.server({
   	root: 'public',
-    port: 404,
+    port: 3000,
     livereload: true
   });
+});
+
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('lint', function() {
+  return gulp.src(['./app/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('gulp-jshint-file-reporter', {
+      filename: './jshint-output.log'
+    }))
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('images', function(){
@@ -88,7 +108,12 @@ gulp.task('libs', function() {
 gulp.task('minify-html', function() {
   return gulp.src('./markup/**/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('fonts', function(){
+  return gulp.src('./fonts/**/*.*')
+  .pipe(gulp.dest('./public/fonts'));
 });
 
 gulp.task('build-app', function(){
@@ -105,8 +130,9 @@ gulp.task('build-main', function(){
 
 gulp.task('watch', function(){
 	gulp.watch('libs/**/*.*', ['libs']);
-	gulp.watch('app/**/*.js', ['brows-dev']);
+	gulp.watch('app/**/*.js', ['brows-dev','lint']);
 	gulp.watch('./sass/*.scss', [ 'build-css' ]);
 	gulp.watch('markup/**/*.html', ['minify-html']);
 	gulp.watch('images/**/*', ['images']);
+  gulp.watch(['app/**/*.js'], ['test', 'lint']);
 });
