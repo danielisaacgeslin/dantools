@@ -9,6 +9,7 @@ var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
 var jshint = require('gulp-jshint');
+var ngAnnotate = require('gulp-ng-annotate')
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 
@@ -18,7 +19,7 @@ gulp.task('default', function(){
 });
 
 gulp.task('dev', function(){
-  runSequence('build', 'lint', 'test', 'watch');
+  runSequence('build', 'lint', 'test', 'connect', 'watch');
 });
 
 gulp.task('build', function(){
@@ -65,7 +66,8 @@ gulp.task('browserify', function() {
 
 gulp.task('minify-js', function() {
   return gulp.src('public/js/app.js')
-    .pipe(uglify({mangle:false}))
+    .pipe(ngAnnotate())
+    .pipe(uglify({mangle:true}))
     .pipe(gulp.dest('public/js/'));
 });
 

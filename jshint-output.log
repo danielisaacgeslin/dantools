@@ -1,5 +1,0 @@
-
-3 lint errors found in app\config.js
-  [2,17](W109) Strings must use singlequote.
-  [9,22](W109) Strings must use singlequote.
-  [10,38](W109) Strings must use singlequote.
