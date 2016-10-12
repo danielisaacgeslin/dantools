@@ -11,7 +11,10 @@ var connect = require('gulp-connect');
 var jshint = require('gulp-jshint');
 var ngAnnotate = require('gulp-ng-annotate')
 var runSequence = require('run-sequence');
+var ts = require('gulp-typescript');
 var Server = require('karma').Server;
+
+var tsProject = ts.createProject('tsconfig.json');
 
 /*usable from terminal*/
 gulp.task('default', function(){
@@ -23,7 +26,7 @@ gulp.task('dev', function(){
 });
 
 gulp.task('build', function(){
-  runSequence('build-main','libs','build-app','build-css','minify-html','images','fonts', 'lint');
+  runSequence('build-main','libs','ts','build-app','build-css','minify-html','images','fonts', 'lint');
 });
 
 /*end usable from terminal*/
@@ -130,9 +133,16 @@ gulp.task('build-main', function(){
   runSequence('main','minify-main');
 });
 
+gulp.task('ts', function(){
+  return gulp.src(['./typings/**/*.ts','./app/**/*.ts'])
+  .pipe(tsProject())
+  .pipe(gulp.dest('./app'));
+});
+
 gulp.task('watch', function(){
 	gulp.watch('libs/**/*.*', ['libs']);
-	gulp.watch('app/**/*.js', ['brows-dev','lint']);
+  gulp.watch('app/**/*.ts', ['ts']);
+  gulp.watch('app/**/*.js', ['brows-dev','lint']);
 	gulp.watch('./sass/*.scss', [ 'build-css' ]);
 	gulp.watch('markup/**/*.html', ['minify-html']);
 	gulp.watch('images/**/*', ['images']);
