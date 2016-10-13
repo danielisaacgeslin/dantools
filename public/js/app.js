@@ -1,1 +1,42 @@
-!function r(t,n,o){function e(u,l){if(!n[u]){if(!t[u]){var c="function"==typeof require&&require;if(!l&&c)return c(u,!0);if(i)return i(u,!0);var a=new Error("Cannot find module '"+u+"'");throw a.code="MODULE_NOT_FOUND",a}var s=n[u]={exports:{}};t[u][0].call(s.exports,function(r){var n=t[u][1][r];return e(n?n:r)},s,s.exports,r,t,n,o)}return n[u].exports}for(var i="function"==typeof require&&require,u=0;u<o.length;u++)e(o[u]);return e}({1:[function(r,t,n){!function(){"use strict";function r(r,t){t.otherwise("/"),r.state("/",{url:"/",templateUrl:"main.html",controller:"mainController",controllerAs:"vm"})}r.$inject=["$stateProvider","$urlRouterProvider"],angular.module("app").config(r)}()},{}],2:[function(r,t,n){!function(){"use strict";var r=function(){function r(r){this.$scope=r,this.test="testing this controller"}return r.$inject=["$scope"],r}();angular.module("app").controller("mainController",r)}()},{}],3:[function(r,t,n){"use strict";r("./modules/app.module"),r("./config"),r("./controllers/main.controller")},{"./config":1,"./controllers/main.controller":2,"./modules/app.module":4}],4:[function(r,t,n){!function(){"use strict";angular.module("app",["ui.router","ngAnimate","ngSanitize","ui.bootstrap"])}()},{}]},{},[3]);
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function () {
+    'use strict';
+    angular.module('app').config(config);
+    function config($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
+        $stateProvider.state('/', {
+            url: '/',
+            templateUrl: 'main.html',
+            controller: 'mainController',
+            controllerAs: 'vm'
+        });
+    }
+})();
+
+},{}],2:[function(require,module,exports){
+(function () {
+    'use strict';
+    var MainController = (function () {
+        function MainController($scope) {
+            this.$scope = $scope;
+            this.test = 'testing this controller';
+        }
+        MainController.$inject = ['$scope'];
+        return MainController;
+    }());
+    angular.module('app').controller('mainController', MainController);
+})();
+
+},{}],3:[function(require,module,exports){
+'use strict';
+require('./modules/app.module');
+require('./config');
+require('./controllers/main.controller');
+
+},{"./config":1,"./controllers/main.controller":2,"./modules/app.module":4}],4:[function(require,module,exports){
+(function () {
+    'use strict';
+    angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+})();
+
+},{}]},{},[3]);

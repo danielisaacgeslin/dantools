@@ -1,7 +1,7 @@
 (()=>{
 	'use strict';
-	class MainController {
-		static $inject = ['$scope'];
+	class MainController implements ng.IController{
+		static $inject: string[] = ['$scope'];
 		public test: string;
 
 		constructor(private $scope: ng.IScope){
