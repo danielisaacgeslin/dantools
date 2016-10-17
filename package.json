@@ -1,7 +1,7 @@
 {
-  "name": "dantools",
+  "name": "gulp-angular-jasmine-typescript-boilerplate",
   "version": "1.0.0",
-  "description": "dantools",
+  "description": "custom gulp boilerplate for angular with typescript and jasmine by dgeslin",
   "main": "gulpfile.js",
   "scripts": {
     "start": "npm run dev",
@@ -47,15 +47,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielisaacgeslin/dantools.git"
+    "url": "git+https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate"
   },
   "keywords": [
-    "dantools"
+    "gulp",
+    "angular",
+    "jasmine",
+    "typescript"
   ],
-  "author": "dan",
+  "author": "daniel isaac geslin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danielisaacgeslin/dantools/issues"
+    "url": "https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate/issues"
   },
-  "homepage": "https://github.com/danielisaacgeslin/dantools#readme"
+  "homepage": "https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate#readme"
 }
