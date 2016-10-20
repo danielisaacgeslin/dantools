@@ -2,12 +2,18 @@
 (function () {
     'use strict';
     angular.module('app').config(config);
-    function config($stateProvider, $urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider, $locationProvider) {
+        $locationProvider.html5Mode(true).hashPrefix('*');
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('/', {
             url: '/',
             templateUrl: 'main.html',
             controller: 'mainController',
+            controllerAs: 'vm'
+        }).state('/second', {
+            url: '/second',
+            templateUrl: 'second.html',
+            controller: 'secondController',
             controllerAs: 'vm'
         });
     }
@@ -16,27 +22,42 @@
 },{}],2:[function(require,module,exports){
 (function () {
     'use strict';
-    var MainController = (function () {
-        function MainController($scope) {
-            this.$scope = $scope;
-            this.test = 'testing this controller';
+    angular.module('app').controller('mainController', mainController);
+    mainController.$inject = ['$scope'];
+    function mainController($scope) {
+        var vm = this;
+        vm.test = 'testing this controller';
+        init();
+        function init() {
         }
-        MainController.$inject = ['$scope'];
-        return MainController;
-    }());
-    angular.module('app').controller('mainController', MainController);
+    }
 })();
 
 },{}],3:[function(require,module,exports){
+(function () {
+    'use strict';
+    angular.module('app').controller('secondController', secondController);
+    secondController.$inject = ['$scope'];
+    function secondController($scope) {
+        var vm = this;
+        vm.test = 'second';
+        init();
+        function init() {
+        }
+    }
+})();
+
+},{}],4:[function(require,module,exports){
 'use strict';
 require('./modules/app.module');
 require('./config');
 require('./controllers/main.controller');
+require('./controllers/second.controller');
 
-},{"./config":1,"./controllers/main.controller":2,"./modules/app.module":4}],4:[function(require,module,exports){
+},{"./config":1,"./controllers/main.controller":2,"./controllers/second.controller":3,"./modules/app.module":5}],5:[function(require,module,exports){
 (function () {
     'use strict';
     angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 })();
 
-},{}]},{},[3]);
+},{}]},{},[4]);

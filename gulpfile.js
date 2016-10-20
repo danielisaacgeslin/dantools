@@ -9,34 +9,64 @@ var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
 var connect = require('gulp-connect');
 var jshint = require('gulp-jshint');
-var ngAnnotate = require('gulp-ng-annotate')
+var ngAnnotate = require('gulp-ng-annotate');
 var runSequence = require('run-sequence');
 var ts = require('gulp-typescript');
+var clean = require('gulp-clean');
+var logger = require('gulp-logger');
+var colors = require('colors');
 var Server = require('karma').Server;
 
 var tsProject = ts.createProject('tsconfig.json');
 
 /*usable from terminal*/
-gulp.task('default', function(){
-  runSequence('dev');
-});
-
 gulp.task('dev', function(){
-  runSequence('build', 'lint', 'test', 'connect', 'watch');
+  console.log('development process started'.bgWhite.black);
+  runSequence(
+  'clean',
+  'main',
+  'minify-main',
+  'ts',
+  'browserify',
+  'minify-js',
+  ['build-css','minify-html','images','fonts','libs'],
+  ['test','lint'],
+  ['watch','connect'],
+  function(){
+    console.log('ready to develop'.bgGreen.black);
+  });
 });
 
 gulp.task('build', function(){
-  runSequence('build-main','libs','ts','build-app','build-css','minify-html','images','fonts', 'lint');
+  console.log('build started'.bgWhite.black);
+  runSequence(
+  'clean',
+  'main',
+  'minify-main',
+  'ts',
+  'browserify',
+  'minify-js',
+  ['build-css','minify-html','images','fonts','libs'],
+  ['test','lint'],
+  function(){
+    console.log('build complete'.bgGreen.black);
+  }
+);
 });
 
 /*end usable from terminal*/
 
 gulp.task('connect', function() {
-  connect.server({
+  return connect.server({
   	root: 'public',
     port: 3000,
     livereload: true
   });
+});
+
+gulp.task('clean', function () {
+    return gulp.src(['./public/','./jshint-output.log'], {read: false})
+        .pipe(clean());
 });
 
 gulp.task('test', function (done) {
@@ -111,7 +141,7 @@ gulp.task('libs', function() {
 });
 
 gulp.task('minify-html', function() {
-  return gulp.src('./markup/**/*.html')
+  return gulp.src('./app/**/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('./public/'));
 });
@@ -139,12 +169,32 @@ gulp.task('ts', function(){
   .pipe(gulp.dest('./app'));
 });
 
+gulp.task('update-js', function(){
+  console.log('updating js'.bgWhite.black);
+  runSequence('ts', 'browserify', 'lint', 'test', function(){
+    console.log('js updated'.bgGreen.black);
+  });
+});
+
+gulp.task('update-css', function(){
+  console.log('updating css'.bgWhite.black);
+  runSequence('sass','minify-css', function(){
+    console.log('css updated'.bgGreen.black);
+  });
+});
+
+gulp.task('update-html', function(){
+  console.log('updating html'.bgWhite.black);
+  runSequence('minify-html', function(){
+    console.log('html updated'.bgGreen.black);
+  });
+});
+
 gulp.task('watch', function(){
 	gulp.watch('libs/**/*.*', ['libs']);
-  gulp.watch('app/**/*.ts', ['ts']);
-  gulp.watch('app/**/*.js', ['brows-dev','lint']);
-	gulp.watch('./sass/*.scss', [ 'build-css' ]);
-	gulp.watch('markup/**/*.html', ['minify-html']);
+  gulp.watch('app/**/*.ts', ['update-js']);
+	gulp.watch('./sass/*.scss', ['update-css']);
+	gulp.watch('app/**/*.html', ['update-html']);
 	gulp.watch('images/**/*', ['images']);
-  gulp.watch(['app/**/*.js'], ['test', 'lint']);
+  gulp.watch('app/**/*.spec.js', ['test']);
 });

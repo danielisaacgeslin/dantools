@@ -1,12 +1,12 @@
 (function () {
     'use strict';
-    var MainController = (function () {
-        function MainController($scope) {
-            this.$scope = $scope;
-            this.test = 'testing this controller';
+    angular.module('app').controller('mainController', mainController);
+    mainController.$inject = ['$scope'];
+    function mainController($scope) {
+        var vm = this;
+        vm.test = 'testing this controller';
+        init();
+        function init() {
         }
-        MainController.$inject = ['$scope'];
-        return MainController;
-    }());
-    angular.module('app').controller('mainController', MainController);
+    }
 })();
