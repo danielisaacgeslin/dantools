@@ -1,4 +1,6 @@
 'use strict';
+var pjson = require('./package.json');
+var connect = require('gulp-connect');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserify = require('browserify');
@@ -7,7 +9,6 @@ var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
-var connect = require('gulp-connect');
 var jshint = require('gulp-jshint');
 var ngAnnotate = require('gulp-ng-annotate');
 var runSequence = require('run-sequence');
@@ -58,7 +59,8 @@ gulp.task('build', function(){
 
 gulp.task('connect', function() {
   return connect.server({
-  	root: 'public',
+    name: pjson.name,
+  	root: ['./public/'],
     port: 3000,
     livereload: true
   });
@@ -104,13 +106,6 @@ gulp.task('minify-js', function() {
     .pipe(gulp.dest('public/js/'));
 });
 
-gulp.task('brows-dev', function(){
-	return browserify('./app/generator.js')
-	.bundle()
-  .pipe(source('app.js'))
-	.pipe(gulp.dest('./public/js/'));
-});
-
 gulp.task('main', function() {
 	return browserify('./main.js')
 	.bundle().pipe(source('main.js'))
@@ -151,16 +146,8 @@ gulp.task('fonts', function(){
   .pipe(gulp.dest('./public/fonts'));
 });
 
-gulp.task('build-app', function(){
-  runSequence('browserify','minify-js');
-});
-
 gulp.task('build-css', function(){
   runSequence('sass','minify-css');
-});
-
-gulp.task('build-main', function(){
-  runSequence('main','minify-main');
 });
 
 gulp.task('ts', function(){
@@ -171,23 +158,29 @@ gulp.task('ts', function(){
 
 gulp.task('update-js', function(){
   console.log('updating js'.bgWhite.black);
-  runSequence('ts', 'browserify', 'lint', 'test', function(){
+  runSequence('ts', 'browserify', 'lint', 'test', 'livereload', function(){
     console.log('js updated'.bgGreen.black);
   });
 });
 
 gulp.task('update-css', function(){
   console.log('updating css'.bgWhite.black);
-  runSequence('sass','minify-css', function(){
+  runSequence('sass','minify-css', 'livereload', function(){
     console.log('css updated'.bgGreen.black);
   });
 });
 
 gulp.task('update-html', function(){
   console.log('updating html'.bgWhite.black);
-  runSequence('minify-html', function(){
+  runSequence('minify-html', 'livereload', function(){
     console.log('html updated'.bgGreen.black);
   });
+});
+
+gulp.task('livereload', function(){
+  console.log('reloading browser'.bgYellow.black);
+  gulp.src('./public/**/*.*')
+    .pipe(connect.reload());
 });
 
 gulp.task('watch', function(){
