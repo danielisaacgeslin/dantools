@@ -4,14 +4,13 @@ Run this commands on the root folder of the app to get the following results
 * npm install `installs node modules, bower components and typings`
 
 #Development
-* npm run dev `(for developing, this runs: build, lint, test, connect and watch`
+* npm start `(for developing, this runs: build, lint, test, connect and watch`
 * npm run ts `(for compiling typescript)`
+* npm test `(for runing tests)`
+
+
+#Production
 * npm run build `(for assembling a production build)`
-* npm run test `(for runing tests)`
-
-
-#Run the application
-* npm start
 
 #Extras
 * npm run connect `(port 3000)`

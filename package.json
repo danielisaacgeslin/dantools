@@ -4,8 +4,7 @@
   "description": "custom gulp boilerplate for angular with typescript and jasmine by dgeslin",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "gulp dev",
+    "start": "start chrome \"http://localhost:3000\" && gulp dev",
     "build": "gulp build",
     "connect": "gulp connect",
     "watch": "gulp watch",
@@ -14,7 +13,8 @@
     "ts": "gulp ts",
     "test": "karma start karma.conf.js",
     "postinstall": "npm run bower && typings install",
-    "push": "git add * && git commit -m update && git push"
+    "push": "git add * && git commit -m update && git push",
+    "chrome": "start chrome \"http://localhost:3000\""
   },
   "devDependencies": {
     "bower": "^1.7.9",

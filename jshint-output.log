@@ -1,3 +1,0 @@
-
-1 lint errors found in app\controllers\main.controller.js
-  [8,9](W117) 'alert' is not defined.

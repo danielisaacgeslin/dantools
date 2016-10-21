@@ -26,10 +26,8 @@ gulp.task('dev', function(){
   runSequence(
   'clean',
   'main',
-  'minify-main',
   'ts',
   'browserify',
-  'minify-js',
   ['build-css','minify-html','images','fonts','libs'],
   ['test','lint'],
   ['watch','connect'],
@@ -178,7 +176,7 @@ gulp.task('update-html', function(){
 });
 
 gulp.task('livereload', function(){
-  console.log('reloading browser'.bgYellow.black);
+  console.log(colors.black('reloading browser').bgMagenta);
   gulp.src('./public/**/*.*')
     .pipe(connect.reload());
 });
