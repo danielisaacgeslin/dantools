@@ -1,9 +1,8 @@
-(() =>{
-	'use strict';
+(()=>{
+  'use strict';
+  angular.module('app.main', []).config(config);
 
-	angular.module('app').config(config);
-
-	function config(
+  function config(
 		$stateProvider: ng.ui.IStateProvider,
 		$urlRouterProvider: ng.ui.IUrlRouterProvider,
 		$locationProvider: ng.ILocationProvider
@@ -24,5 +23,4 @@
 			controllerAs: 'vm'
 		});
 	}
-
 })();

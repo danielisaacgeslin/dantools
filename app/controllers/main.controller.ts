@@ -1,6 +1,6 @@
 (()=>{
 	'use strict';
-	angular.module('app').controller('mainController', mainController);
+	angular.module('app.main').controller('mainController', mainController);
 
 	mainController.$inject = ['$scope'];
 	function mainController($scope: ng.IScope){
