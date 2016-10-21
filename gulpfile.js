@@ -92,7 +92,7 @@ gulp.task('images', function(){
 });
 
 gulp.task('browserify', function() {
-	return browserify('./app/generator.js')
+	return browserify('./app/app.js')
 	.bundle().pipe(source('app.js'))
 	.pipe(gulp.dest('public/js/'));
 });

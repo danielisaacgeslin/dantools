@@ -13,8 +13,7 @@
     "ts": "gulp ts",
     "test": "karma start karma.conf.js",
     "postinstall": "npm run bower && typings install",
-    "push": "git add * && git commit -m update && git push",
-    "chrome": "start chrome \"http://localhost:3000\""
+    "push": "git add * && git commit -m update && git push"
   },
   "devDependencies": {
     "bower": "^1.7.9",
