@@ -1,0 +1,18 @@
+
+1 lint errors found in app\home\controllers\main.controller.spec.js
+  [19,37](W033) Missing semicolon.
+2 lint errors found in app\home\controllers\main.controller.spec.js
+  [20,31](W033) Missing semicolon.
+  [22,30](W033) Missing semicolon.
+2 lint errors found in app\home\controllers\main.controller.spec.js
+  [20,31](W033) Missing semicolon.
+  [22,30](W033) Missing semicolon.
+2 lint errors found in app\home\controllers\main.controller.spec.js
+  [20,30](W033) Missing semicolon.
+  [22,30](W033) Missing semicolon.
+2 lint errors found in app\home\controllers\main.controller.spec.js
+  [20,23](W033) Missing semicolon.
+  [22,30](W033) Missing semicolon.
+2 lint errors found in app\home\controllers\main.controller.spec.js
+  [20,28](W033) Missing semicolon.
+  [22,28](W033) Missing semicolon.
