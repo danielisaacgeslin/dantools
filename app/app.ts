@@ -1,8 +1,8 @@
 'use strict';
-/*modules*/
-import './modules/app.module';
-import './modules/app.core.module';
-import './modules/app.main.module';
-/*controllers*/
-import './controllers/main.controller';
-import './controllers/second.controller';
+/*core*/
+import './core/modules/app.module';
+import './core/modules/app.core.module';
+/*home*/
+import './home/modules/app.main.module';
+import './home/controllers/main.controller';
+import './home/controllers/second.controller';
