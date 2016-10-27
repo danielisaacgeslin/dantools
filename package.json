@@ -16,7 +16,7 @@
     "push": "git add * && git commit -m update && git push"
   },
   "devDependencies": {
-    "bower": "^1.7.9",
+    "angular-mocks": "^1.5.8",
     "browserify": "^13.1.0",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
@@ -40,6 +40,7 @@
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
+    "karma-simpler-reporter": "0.0.9",
     "phantomjs": "^2.1.7",
     "phantomjs-prebuilt": "^2.1.12",
     "run-sequence": "^1.2.2",
@@ -62,5 +63,16 @@
   "bugs": {
     "url": "https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate/issues"
   },
-  "homepage": "https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate#readme"
+  "homepage": "https://github.com/danielisaacgeslin/gulp-angular-jasmine-typescript-boilerplate#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-bootstrap": "^0.12.2",
+    "angular-material": "^1.1.1",
+    "angular-sanitize": "^1.5.8",
+    "angular-ui-bootstrap": "^2.2.0",
+    "angular-ui-router": "^0.3.1",
+    "font-awesome": "^4.7.0"
+  }
 }

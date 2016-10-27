@@ -1,5 +1,5 @@
-require('./bower_components/angular');
-require('./bower_components/angular-sanitize');
-require('./bower_components/angular-ui-router/release/angular-ui-router.js');
-require('./bower_components/angular-animate');
-require('./bower_components/angular-bootstrap');
+require('angular');
+require('angular-sanitize');
+require('./node_modules/angular-ui-router/release/angular-ui-router.js');
+require('angular-animate');
+require('angular-ui-bootstrap');

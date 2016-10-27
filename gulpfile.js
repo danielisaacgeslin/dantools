@@ -69,11 +69,14 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-gulp.task('test', function (done) {
-  new Server({
+gulp.task('test', function () {
+  console.log('running tests'.bgWhite.black);
+  var a = new Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
-  }, done).start();
+  },function(e){
+    console.log(e.toString().concat(' error/s')[e ? 'bgRed' : 'bgGreen'].black);
+  }).start();
 });
 
 gulp.task('lint', function() {
