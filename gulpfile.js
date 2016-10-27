@@ -25,6 +25,7 @@ gulp.task('dev', function(){
   console.log('development process started'.bgWhite.black);
   runSequence(
   'clean',
+  'rootAssets',
   'main',
   'ts',
   'browserify',
@@ -40,6 +41,7 @@ gulp.task('build', function(){
   console.log('build started'.bgWhite.black);
   runSequence(
   'clean',
+  'rootAssets',
   'main',
   'minify-main',
   'ts',
@@ -60,7 +62,8 @@ gulp.task('connect', function() {
     name: pjson.name,
   	root: ['./public/'],
     port: 3000,
-    livereload: true
+    livereload: true,
+    fallback: './public/index.html'
   });
 });
 
@@ -182,6 +185,12 @@ gulp.task('livereload', function(){
   console.log(colors.black('reloading browser').bgMagenta);
   gulp.src('./public/**/*.*')
     .pipe(connect.reload());
+});
+
+gulp.task('rootAssets', function(){
+  return gulp.src(['./rootAssets/**','./rootAssets/.htaccess'])
+  .pipe(gulp.dest('./public'));
+
 });
 
 gulp.task('watch', function(){
