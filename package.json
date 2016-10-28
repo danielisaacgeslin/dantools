@@ -8,16 +8,16 @@
     "build": "gulp build",
     "connect": "gulp connect",
     "watch": "gulp watch",
-    "bower": "bower install",
     "typings": "typings install",
     "ts": "gulp ts",
     "test": "karma start karma.conf.js",
-    "postinstall": "npm run bower && typings install",
+    "postinstall": "typings install",
     "push": "git add * && git commit -m update && git push"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.8",
     "browserify": "^13.1.0",
+    "colors": "^1.1.2",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-clean": "^0.3.2",
