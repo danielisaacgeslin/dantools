@@ -111,13 +111,13 @@ gulp.task('minify-js', function() {
 });
 
 gulp.task('main', function() {
-	return browserify('./main.js')
-	.bundle().pipe(source('main.js'))
+	return browserify('./app/vendors.js')
+	.bundle().pipe(source('vendors.js'))
 	.pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('minify-main', function() {
-  return gulp.src('public/js/main.js')
+  return gulp.src('public/js/vendors.js')
     .pipe(uglify({mangle:true}))
     .pipe(gulp.dest('public/js/'));
 });

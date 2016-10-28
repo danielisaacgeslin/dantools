@@ -15,12 +15,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './public/js/main.js', //angular and dependences
+      './public/js/vendors.js', //angular and dependences
       './public/js/app.js',
+      {pattern: './public/**/*.html'},
       './node_modules/angular-mocks/angular-mocks.js',
-      './public/**/*.html',
-      {pattern: './app/**/*.spec.js'},
-      {pattern: './public/**/*.html'}
+      {pattern: './app/**/*.spec.js'}
     ],
 
     // list of files to exclude

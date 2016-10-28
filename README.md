@@ -1,7 +1,7 @@
 Run this commands on the root folder of the app to get the following results
 
 #Instalation
-* npm install `installs node modules, bower components and typings`
+* npm install `installs node modules and typings`
 
 #Development
 * npm start `(for developing, this runs: build, lint, test, connect and watch`
