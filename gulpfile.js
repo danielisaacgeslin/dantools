@@ -9,7 +9,7 @@ var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
-var jshint = require('gulp-jshint');
+var tslint = require('gulp-tslint');
 var ngAnnotate = require('gulp-ng-annotate');
 var runSequence = require('run-sequence');
 var ts = require('gulp-typescript');
@@ -83,12 +83,15 @@ gulp.task('test', function () {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['./app/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('gulp-jshint-file-reporter', {
-      filename: './jshint-output.log'
+  return gulp.src(['./app/**/*.ts'])
+    .pipe(tslint({
+      configuration: "./tslint.json"
     }))
-    .pipe(jshint.reporter('default'));
+    .pipe(tslint.report())
+    .on('error', function(e){
+      this.emit('end')
+      console.log('lint error/s'['bgRed'].black);
+    })
 });
 
 gulp.task('images', function(){
