@@ -31,8 +31,8 @@ gulp.task('dev', function(){
   'rootAssets',
   'main',
   'move-js',
-  ['build-css','move-html','images','fonts','libs'],
   'index-dev',
+  ['build-css','move-html','images','fonts','libs'],
   ['test','lint'],
   ['watch','connect'],
   function(){
@@ -49,8 +49,8 @@ gulp.task('build', function(){
   'main',
   'minify-main',
   'bundle-minify-js',
-  ['build-css','minify-html','images','fonts','libs'],
   'index-prd',
+  ['build-css','minify-html','images','fonts','libs'],
   ['test','lint'],
   function(){
     console.log('build complete'.bgGreen.black);
@@ -208,8 +208,7 @@ gulp.task('index-dev', function () {
   var target = gulp.src('./app/index.html')
   var sources =  gulp.src(['./app/**/*.js', '!./app/**/*spec.js'], {read: false});
   return target
-  .pipe(inject(sources, {ignorePath: 'source'}))
-  .pipe(gulp.dest('./public/'))
+  .pipe(inject(sources, {ignorePath: 'public'}))
   .pipe(gulp.dest('./app/'));
 });
 
@@ -217,8 +216,8 @@ gulp.task('index-prd', function () {
   var target = gulp.src('./app/index.html')
   var sources =  gulp.src(['./public/js/app.js'], {read: false});
   return target
-  .pipe(inject(sources, {ignorePath: 'source'}))
-  .pipe(gulp.dest('./public/'));
+  .pipe(inject(sources, {ignorePath: 'public'}))
+  .pipe(gulp.dest('./app/'));
 });
 
 gulp.task('watch', function(){
