@@ -9,3 +9,4 @@ test/bower_components
 app/**/*.js
 app/**/*.js.map
 !app/**/*.spec.js
+public
