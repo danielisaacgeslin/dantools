@@ -25,9 +25,9 @@ gulp.task('dev', function(){
   console.log('development process started'.bgWhite.black);
   runSequence(
   'clean',
+  'ts',
   'rootAssets',
   'main',
-  'ts',
   'browserify',
   ['build-css','minify-html','images','fonts','libs'],
   ['test','lint'],
@@ -41,10 +41,10 @@ gulp.task('build', function(){
   console.log('build started'.bgWhite.black);
   runSequence(
   'clean',
+  'ts',
   'rootAssets',
   'main',
   'minify-main',
-  'ts',
   'browserify',
   'minify-js',
   ['build-css','minify-html','images','fonts','libs'],

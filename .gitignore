@@ -6,3 +6,6 @@ bower_components
 test/bower_components
 .idea
 *.iml
+app/**/*.js
+app/**/*.js.map
+!app/**/*.spec.js
