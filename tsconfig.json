@@ -11,9 +11,7 @@
     "removeComments": true
   },
   "filesGlob": [
-    "./typings/**/*.d.ts",
-    "./typings/**/*.ts",
-    "./typings/**/*.tsx",
+    "./node_modules/@types/**/*.d.ts",
     "./app/**/*.ts"
   ]
 }

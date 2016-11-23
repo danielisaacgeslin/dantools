@@ -9,7 +9,6 @@
     "lint": "gulp lint",
     "connect": "gulp connect",
     "watch": "gulp watch",
-    "typings": "typings install",
     "ts": "gulp ts",
     "test": "karma start karma.conf.js",
     "postinstall": "typings install",
