@@ -4,7 +4,9 @@ var connect = require('gulp-connect');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserify = require('browserify');
+var concat = require('gulp-concat');
 var source = require('vinyl-source-stream');
+var inject = require('gulp-inject');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
@@ -28,8 +30,9 @@ gulp.task('dev', function(){
   'ts',
   'rootAssets',
   'main',
-  'browserify',
-  ['build-css','minify-html','images','fonts','libs'],
+  'move-js',
+  ['build-css','move-html','images','fonts','libs'],
+  'index-dev',
   ['test','lint'],
   ['watch','connect'],
   function(){
@@ -45,9 +48,9 @@ gulp.task('build', function(){
   'rootAssets',
   'main',
   'minify-main',
-  'browserify',
-  'minify-js',
+  'bundle-minify-js',
   ['build-css','minify-html','images','fonts','libs'],
+  'index-prd',
   ['test','lint'],
   function(){
     console.log('build complete'.bgGreen.black);
@@ -100,21 +103,21 @@ gulp.task('images', function(){
 		.pipe(gulp.dest('./public/images'));
 });
 
-gulp.task('browserify', function() {
-	return browserify('./app/app.js')
-	.bundle().pipe(source('app.js'))
-	.pipe(gulp.dest('public/js/'));
+gulp.task('move-js', function() {
+	return gulp.src(['./app/**/*.js', '!./app/**/*.spec.js'])
+	.pipe(gulp.dest('public/app/'));
 });
 
-gulp.task('minify-js', function() {
-  return gulp.src('public/js/app.js')
+gulp.task('bundle-minify-js', function() {
+    return gulp.src(['./app/**/*.js', '!./app/**/*.spec.js'])
+  	.pipe(concat('app.js'))
     .pipe(ngAnnotate())
     .pipe(uglify({mangle:true}))
-    .pipe(gulp.dest('public/js/'));
+  	.pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('main', function() {
-	return browserify('./app/vendors.js')
+	return browserify('./vendors.js')
 	.bundle().pipe(source('vendors.js'))
 	.pipe(gulp.dest('public/js/'));
 });
@@ -148,6 +151,11 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('move-html', function() {
+  return gulp.src('./app/**/*.html')
+    .pipe(gulp.dest('./public/'));
+});
+
 gulp.task('fonts', function(){
   return gulp.src('./fonts/**/*.*')
   .pipe(gulp.dest('./public/fonts'));
@@ -165,7 +173,7 @@ gulp.task('ts', function(){
 
 gulp.task('update-js', function(){
   console.log('updating js'.bgWhite.black);
-  runSequence('ts', 'browserify', 'lint', 'test', 'livereload', function(){
+  runSequence('lint','ts', 'move-js', 'test', 'livereload', function(){
     console.log('js updated'.bgGreen.black);
   });
 });
@@ -179,7 +187,7 @@ gulp.task('update-css', function(){
 
 gulp.task('update-html', function(){
   console.log('updating html'.bgWhite.black);
-  runSequence('minify-html', 'livereload', function(){
+  runSequence('move-html', 'livereload', function(){
     console.log('html updated'.bgGreen.black);
   });
 });
@@ -194,6 +202,23 @@ gulp.task('rootAssets', function(){
   return gulp.src(['./rootAssets/**','./rootAssets/.htaccess'])
   .pipe(gulp.dest('./public'));
 
+});
+
+gulp.task('index-dev', function () {
+  var target = gulp.src('./app/index.html')
+  var sources =  gulp.src(['./app/**/*.js', '!./app/**/*spec.js'], {read: false});
+  return target
+  .pipe(inject(sources, {ignorePath: 'source'}))
+  .pipe(gulp.dest('./public/'))
+  .pipe(gulp.dest('./app/'));
+});
+
+gulp.task('index-prd', function () {
+  var target = gulp.src('./app/index.html')
+  var sources =  gulp.src(['./public/js/app.js'], {read: false});
+  return target
+  .pipe(inject(sources, {ignorePath: 'source'}))
+  .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('watch', function(){

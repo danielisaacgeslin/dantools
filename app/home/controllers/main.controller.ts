@@ -12,13 +12,11 @@
 
         $scope.sum = sum;
 
-        init();
+        _init();
 
-        function init(): void {
+        function _init(): void { }
 
-        }
-
-        function sum() {
+        function sum(): void {
             vm.r = Number(vm.a) + Number(vm.b);
         }
     }
